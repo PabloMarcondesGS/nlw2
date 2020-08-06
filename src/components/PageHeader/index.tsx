@@ -8,6 +8,7 @@ import './styles.css'
 //Se colocar '?' apos o title ele se torna não obrigatorio
 interface PageHeaderProps{
     title: string;
+    description?: string;
 }
 
 //Colocar React.fc para falar que e um function component
@@ -23,6 +24,10 @@ const PageHeader: React.FC<PageHeaderProps> = (props) =>{
 
             <div className="header-content">
                 <strong>{props.title}</strong>
+                {/* {props.description ? <p>{props.description}</p> : null} */}
+                {/* alternativa ao if ternario */}
+                {props.description && <p>{props.description}</p> }
+
                 {props.children}
             </div>
             
