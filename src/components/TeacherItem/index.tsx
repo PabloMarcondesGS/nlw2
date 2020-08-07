@@ -3,33 +3,54 @@ import React from 'react';
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 // import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 import './styles.css';
+import api from '../../services/api';
 
-function TeacherItem(){
+export interface Teacher {
+        id: number,
+        avatar: string,
+        bio: string,
+        cost: number,
+        name: string,
+        subject: string,
+        whatsapp: string,
+}
+
+interface TeacherItemProps {
+    teacher: Teacher
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+    function createNewConnection(){
+        api.post('/connections', {
+            user_id: teacher.id
+        })
+    }
+    
     return(
         <article className="teacher-item">
             <header>
-                <img src="https://avatars1.githubusercontent.com/u/13985639?s=400&u=4ef493ff75a9a7a8c23c82d517ce1e2a36ef9407&v=4" alt="Pablo Marcondes"/>
+                <img src={teacher.avatar} alt={teacher.name}/>
                 <div>
-                    <strong>Pablo Marcondes</strong>
-                    <span>Química</span>
+                    <strong>{teacher.name}</strong>
+                    <span>{teacher.subject}</span>
                 </div>
             </header>
 
-            <p>
-                Entusiasta das melhores tecnologias de química avançada.
-                <br/><br/>
-                Apaxonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências.
-            </p>
+            <p>{teacher.bio}</p>
 
             <footer>
                 <p>
                     Preço/hora
-                    <strong>R$ 80,00</strong>
+                    <strong>R$ {teacher.cost}</strong>
                 </p>
-                <button type="button">
+                <a 
+                    target="_blank"
+                    onClick={createNewConnection} 
+                    href={`https://wa.me/${teacher.whatsapp}?text=Eu%20tenho%20interesse%20nas%20suas%20aulas`}
+                >
                     <img src={whatsappIcon} alt="Whatsapp"/>
                     Entrar em contato
-                </button>
+                </a>
             </footer>
 
         </article>
